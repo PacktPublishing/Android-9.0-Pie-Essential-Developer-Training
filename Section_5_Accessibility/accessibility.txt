@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        tools:context=".MainActivity">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="Person Name"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:id="@+id/tvNameHeading"/>
+        <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Philipp"
+                android:accessibilityPaneTitle="Person name changed"
+                android:accessibilityHeading="false"/>
+        <Button
+                android:text="Change name"
+                android:accessibilityPaneTitle="Changes the name of the person"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btn1"/>
+
+        <TextView
+                android:id="@+id/tvRelevant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Relevant text"
+                android:importantForAccessibility="yes"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="Person Age"
+                android:textStyle="bold"
+                android:screenReaderFocusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:id="@+id/tvAgeHeading"/>
+        <TextView
+                android:id="@+id/tvAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="28"
+                android:accessibilityPaneTitle="Person age changed"
+                android:accessibilityHeading="false"/>
+
+        <Button
+                android:text="Change age"
+                android:accessibilityPaneTitle="Changes the age of the person"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btn2"/>
+
+        <TextView
+                android:id="@+id/tvIrrelevant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Irrelevant text"
+                android:importantForAccessibility="no"/>
+    </LinearLayout>
+
+</LinearLayout>

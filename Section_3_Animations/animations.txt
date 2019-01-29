@@ -1,0 +1,69 @@
+package project.android.demo.animations
+
+import android.graphics.*
+import android.graphics.drawable.AnimatedImageDrawable
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+        val cropFactor = 0.92f // crop to 92%
+        val listener = ImageDecoder.OnHeaderDecodedListener { decoder, info, source ->
+
+            val size = info.size.width
+            val left = (size - size * cropFactor).toInt()
+            val top = (size - size * cropFactor).toInt()
+            val right = (size * cropFactor).toInt()
+            val bottom = (size * cropFactor).toInt()
+
+            decoder.crop = Rect(left, top, right, bottom)
+
+            val path = Path().apply {
+                fillType = Path.FillType.INVERSE_EVEN_ODD // draw outside of the path
+            }
+            val paint = Paint().apply {
+                isAntiAlias = true
+                color = Color.TRANSPARENT // draw a transparent color to "erase" unwanted areas
+                xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC) // replace destination pixels with source pixels
+            }
+
+            decoder.setPostProcessor { canvas ->
+
+                val width = canvas.width.toFloat()
+                val height = canvas.height.toFloat()
+
+                path.addRoundRect(
+                    width - width * cropFactor,
+                    height - height * cropFactor,
+                    width * cropFactor,
+                    height * cropFactor,
+                    width * cropFactor,
+                    height * cropFactor,
+                    Path.Direction.CW
+                )
+                canvas.drawPath(path, paint)
+                PixelFormat.TRANSLUCENT // tell the system to allow translucency
+            }
+        }
+
+        val source = ImageDecoder.createSource(resources, R.drawable.animatedgif)
+        val drawable = ImageDecoder.decodeDrawable(source, listener)
+        imageView.setImageDrawable(drawable)
+
+        btnStart.setOnClickListener {
+            val animatedDrawable = drawable as? AnimatedImageDrawable
+            animatedDrawable?.repeatCount = 5
+            animatedDrawable?.start()
+        }
+
+        btnStop.setOnClickListener {
+            (drawable as? AnimatedImageDrawable)?.stop()
+        }
+    }
+}
